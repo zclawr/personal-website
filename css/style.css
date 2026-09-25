@@ -132,6 +132,8 @@ li { margin-bottom: 0.35rem; }
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--border);
+  /* Mild desaturation so the photo sits closer to the site's muted palette. */
+  filter: saturate(0.78);
 }
 .hero-text { flex: 1 1 auto; min-width: 0; }
 .hero-text .title { color: var(--muted); margin: 0.35rem 0 0.9rem; font-size: 1.02rem; }
