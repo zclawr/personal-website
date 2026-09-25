@@ -93,7 +93,7 @@ li { margin-bottom: 0.35rem; }
 
 /* ---------- Layout ---------- */
 .page {
-  max-width: 780px;
+  max-width: 960px;
   margin: 32px auto 48px;
   padding: 0 16px;
 }
@@ -102,7 +102,7 @@ li { margin-bottom: 0.35rem; }
   border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: var(--shadow);
-  padding: 32px 36px 40px;
+  padding: 36px 48px 44px;
 }
 
 /* ---------- Top navigation ---------- */
