@@ -16,13 +16,13 @@ SRC = ROOT / "img" / "background.png"
 OUT = ROOT / "img" / "bg-tile.jpg"
 
 # Crop box (left, top, right, bottom) in source-pixel coordinates, taken from the
-# *unrotated* scan: the green-berries panel in the lower-left of the plate.
-CROP = (262, 2074, 656, 2747)
+# *unrotated* scan: the gold-leaf and lily-of-the-valley bells panel, lower-left of the plate.
+CROP = (709, 2065, 1129, 2756)
 
 TILE_WIDTH = 640      # final tile width in px (height follows the aspect ratio)
-SATURATION = 0.6     # 1.0 = original colour, 0 = greyscale
-CONTRAST = 0.55       # 1.0 = original contrast
-LIGHTEN = 0.68        # fraction blended toward white (0 = none, 1 = all white)
+SATURATION = 0.95    # 1.0 = original colour, 0 = greyscale
+CONTRAST = 0.75       # 1.0 = original contrast
+LIGHTEN = 0.5        # fraction blended toward white (0 = none, 1 = all white)
 JPEG_QUALITY = 82
 
 
