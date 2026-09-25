@@ -1,0 +1,184 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #f4f1e8;
+  --card: #fffdf8;
+  --text: #2a2b28;
+  --muted: #6d6f68;
+  --accent: #4e7a5b;        /* sage green, from the plate's leaves */
+  --accent-hover: #b4563b;  /* terracotta, from the plate's berries */
+  --border: #e2dccd;
+  --shadow: 0 2px 18px rgba(60, 50, 30, 0.08);
+  --tile-opacity: 0.85;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1d1a;
+    --card: #242723;
+    --text: #e6e4dc;
+    --muted: #a5a69d;
+    --accent: #8fc39b;
+    --accent-hover: #e2896d;
+    --border: #383c37;
+    --shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+    --tile-opacity: 0.06;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1d1a;
+  --card: #242723;
+  --text: #e6e4dc;
+  --muted: #a5a69d;
+  --accent: #8fc39b;
+  --accent-hover: #e2896d;
+  --border: #383c37;
+  --shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+  --tile-opacity: 0.06;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Faint ornamental tile behind everything. Kept on a pseudo-element so dark
+   mode can fade it without touching the page colour. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("../img/bg-tile.jpg") repeat;
+  background-size: 320px auto;
+  opacity: var(--tile-opacity);
+  pointer-events: none;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+a:hover, a:focus-visible { color: var(--accent-hover); border-bottom-color: currentColor; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin: 0; }
+h1 { font-size: 2.1rem; }
+h2 {
+  font-size: 1.35rem;
+  margin: 2.2rem 0 0.8rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+h2:first-child { margin-top: 0; }
+h3 { font-size: 1.08rem; margin: 1.3rem 0 0.3rem; }
+p { margin: 0 0 1rem; }
+ul { padding-left: 1.2rem; }
+li { margin-bottom: 0.35rem; }
+.muted { color: var(--muted); }
+.placeholder { color: var(--muted); font-style: italic; }
+
+/* ---------- Layout ---------- */
+.page {
+  max-width: 780px;
+  margin: 32px auto 48px;
+  padding: 0 16px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 32px 36px 40px;
+}
+
+/* ---------- Top navigation ---------- */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.brand { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--text); }
+.brand:hover { color: var(--accent-hover); border-bottom-color: transparent; }
+.nav { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 0; list-style: none; }
+.nav a { color: var(--muted); font-size: 0.95rem; padding-bottom: 2px; }
+.nav a:hover { color: var(--accent-hover); }
+.nav a[aria-current="page"] { color: var(--text); border-bottom: 2px solid var(--accent); }
+
+/* ---------- Home hero ---------- */
+.hero { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 1.5rem; }
+.hero img {
+  width: 190px;
+  flex: 0 0 190px;
+  aspect-ratio: 857 / 1261;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.hero-text { flex: 1 1 auto; min-width: 0; }
+.hero-text .title { color: var(--muted); margin: 0.35rem 0 0.9rem; font-size: 1.02rem; }
+
+.links { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; margin: 0; list-style: none; }
+.links a { display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+.links svg { width: 17px; height: 17px; fill: currentColor; flex: 0 0 auto; }
+
+/* ---------- Publications ---------- */
+.pub { margin-bottom: 1.6rem; }
+.pub .pub-title { font-family: var(--serif); font-size: 1.12rem; font-weight: 600; margin: 0 0 0.2rem; }
+.pub .authors { margin: 0 0 0.15rem; font-size: 0.97rem; }
+.pub .venue { color: var(--muted); font-size: 0.93rem; margin: 0 0 0.45rem; }
+.pub .pub-links { font-size: 0.9rem; margin: 0 0 0.5rem; }
+.pub .pub-links a + a::before { content: "·"; color: var(--muted); margin: 0 8px 0 0; }
+.pub .pub-links a + a { margin-left: 8px; }
+.pub .summary { margin: 0; }
+.talks li { margin-bottom: 0.6rem; }
+
+/* ---------- CV embed ---------- */
+.cv-actions { margin-bottom: 1rem; }
+.cv-frame {
+  width: 100%;
+  height: 85vh;
+  min-height: 480px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+}
+.cv-frame p { padding: 1rem; }
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .page { margin-top: 16px; }
+  .card { padding: 22px 18px 28px; border-radius: 8px; }
+  .hero { flex-direction: column; gap: 18px; }
+  .hero img { width: 160px; flex-basis: auto; }
+  h1 { font-size: 1.8rem; }
+  .cv-frame { height: 70vh; }
+}

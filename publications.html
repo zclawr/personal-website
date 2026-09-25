@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publications · Zach Lawrence</title>
+  <meta name="description" content="Publications, talks, and posters by Zach Lawrence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="page">
+  <main class="card">
+
+    <header class="topbar">
+      <a class="brand" href="index.html">Zach Lawrence</a>
+      <ul class="nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html" aria-current="page">Publications</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="personal.html">Personal</a></li>
+      </ul>
+    </header>
+
+    <section id="papers">
+      <h2>Publications</h2>
+
+      <article class="pub">
+        <p class="pub-title">SimulCost: A Cost-Aware Benchmark and Toolkit for Automating Physics Simulations with LLMs</p>
+        <p class="authors">Yadi Cao, Sicheng Lai, Jiahe Huang, Yang Zhang, <strong>Zach Lawrence</strong>, Rohan Bhakta, Izzy F. Thomas, Mingyun Cao, Chung-Hao Tsai, Zihao Zhou, Yidong Zhao, Hao Liu, Alessandro Marinoni, Alexey Arefiev, Rose Yu</p>
+        <p class="venue">International Conference on Machine Learning (ICML), 2026</p>
+        <p class="pub-links">
+          <a href="https://arxiv.org/abs/2603.20253">arXiv</a>
+          <a href="https://github.com/Rose-STL-Lab/SimulCost-Bench">Code</a>
+        </p>
+        <p class="summary">
+          Benchmarks for LLM agents in science usually count tokens but ignore the cost of the
+          tools the agent calls, which for physics simulations can mean hours of compute per
+          attempt. SimulCost is a benchmark and toolkit that asks LLMs to choose cost-sensitive
+          simulation parameters (mesh resolution, time step, and so on) that hit an accuracy
+          target, and scores them on both success and the simulation compute they spend. It
+          covers thousands of single-round and multi-round tuning tasks across twelve simulators
+          from fluid dynamics, solid mechanics, and plasma physics. Frontier models make
+          unreliable initial guesses and, even with trial-and-error feedback, end up slower than a
+          conventional parameter scan, which points to cost-aware agent design as an open problem.
+        </p>
+      </article>
+
+      <article class="pub">
+        <p class="pub-title">Deep Learning for Modeling and Dispatching Hybrid Wind Farm Power Generation</p>
+        <p class="authors"><strong>Zach Lawrence</strong>, Jessica Yao, Chris Qin</p>
+        <p class="venue">IEEE International Conference on Data Mining Workshops (ICDMW), 2025</p>
+        <p class="pub-links">
+          <a href="https://arxiv.org/abs/2512.00728">arXiv</a>
+        </p>
+        <p class="summary">
+          Hybrid wind farms pair turbines with energy storage, so an operator can decide when to
+          bank power and when to sell it. This paper develops two deep learning frameworks for
+          individual farms. COVE-NN is an LSTM-based dispatch policy trained without labeled
+          dispatch decisions to directly maximize the value of the energy sold; in a 43-year case
+          study at the Pyron site it cut the annual cost of valued energy by 32.3% relative to
+          conventional baseload dispatch. The second is a probabilistic power generation model
+          driven by atmospheric conditions, which reduced RMSE by 9.5% and improved power curve
+          similarity by 18.9% on the Palouse wind farm, and can produce synthetic generation data
+          for training more robust dispatch strategies.
+        </p>
+      </article>
+    </section>
+
+    <section id="talks">
+      <h2>Talks &amp; Posters</h2>
+      <ul class="talks">
+        <li>
+          <strong>Zach Lawrence</strong>, Jessica Yao. “Deep Learning for Modeling and Dispatching Hybrid Wind Farm Power Generation.”
+          <span class="muted">Talk, ICDM Workshops, Washington, D.C., November 2025.</span>
+        </li>
+        <li>
+          <strong>Zach Lawrence</strong>, Jessica Yao. “Deep Learning for Strategic Power Generation for Hybrid Wind Farms.”
+          <span class="muted">Poster, Summer Undergraduate Research Symposium, Vancouver, WA, August 2025.</span>
+        </li>
+        <li>
+          Jessica Yao, <strong>Zach Lawrence</strong>. “Atmospheric Data-Driven Time Series Modeling of Wind Power Generation.”
+          <span class="muted">Poster, Summer Undergraduate Research Symposium, Vancouver, WA, August 2025.</span>
+        </li>
+        <li>
+          <strong>Zach Lawrence</strong>, G. Wrye, A. Panthi, R. Rai. “Mangrove Monitoring.”
+          <span class="muted">Poster, Engineers for Exploration REU Symposium, Escondido, CA, August 2024.</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      &copy; 2026 Zach Lawrence
+    </footer>
+  </main>
+</div>
+</body>
+</html>
