@@ -7,8 +7,12 @@
   --accent: #4e7a5b;        /* sage green, from the plate's leaves */
   --accent-hover: #b4563b;  /* terracotta, from the plate's berries */
   --border: #e2dccd;
+  --wallpaper-opacity: 0.12; /* lace tile behind section headers */
+  --art-opacity: 0.7;       /* hero engraving: pressed into the paper */
+  --art-blend: multiply;
+  --art-filter: none;
   --shadow: 0 2px 18px rgba(60, 50, 30, 0.08);
-  --tile-opacity: 0.85;
+  --bg-opacity: 1.0;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
@@ -22,8 +26,12 @@
     --accent: #8fc39b;
     --accent-hover: #e2896d;
     --border: #383c37;
+    --wallpaper-opacity: 0.55;
+    --art-opacity: 0.7;      /* on a dark card the engraving is lifted instead */
+    --art-blend: screen;
+    --art-filter: invert(1);
     --shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
-    --tile-opacity: 0.06;
+    --bg-opacity: 1.0;
   }
 }
 :root[data-theme="dark"] {
@@ -34,8 +42,12 @@
   --accent: #8fc39b;
   --accent-hover: #e2896d;
   --border: #383c37;
+  --wallpaper-opacity: 0.55;
+  --art-opacity: 0.7;
+  --art-blend: screen;
+  --art-filter: invert(1);
   --shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
-  --tile-opacity: 0.06;
+  --bg-opacity: 1.0;
 }
 
 /* ---------- Base ---------- */
@@ -54,16 +66,22 @@ body {
   position: relative;
 }
 
-/* Faint ornamental tile behind everything. Kept on a pseudo-element so dark
-   mode can fade it without touching the page colour. */
+/* The whole ornament plate, scaled to the page width, behind everything.
+   It scrolls with the page so the full plate is seen top to bottom; the page
+   colour continues below it. Kept on a pseudo-element so dark mode can fade
+   it without touching the page colour. */
 body::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -1;
-  background: url("../img/bg-tile.jpg") repeat;
-  background-size: 320px auto;
-  opacity: var(--tile-opacity);
+  background: url("../img/bg.jpg") repeat top center;
+  background-repeat: repeat;
+  background-size: 50% auto;
+  opacity: var(--bg-opacity);
+  /* Soften the cut on pages shorter than the plate. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 240px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 240px), transparent);
   pointer-events: none;
 }
 
@@ -79,11 +97,35 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; marg
 h1 { font-size: 2.1rem; }
 h2 {
   font-size: 1.35rem;
-  margin: 2.2rem 0 0.8rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid var(--border);
+  margin: 2.2rem -0.8rem 0.9rem;
+  padding: 0.4rem 0.8rem;
 }
 h2:first-child { margin-top: 0; }
+
+/* ---------- Wallpaper band ----------
+   Section headers and the top bar sit on a strip of the lace tile. The tile
+   is black on white, so multiplying it at low opacity only darkens the card
+   colour where the pattern is; the strip itself stays the page colour. The
+   negative horizontal margins let the strip run a little past the text
+   column while the text stays aligned with the body copy. The strip is a
+   z-index:-1 pseudo-element, so .card must be a stacking context (see
+   isolation below) or it would be painted behind the card. */
+h2, .topbar {
+  position: relative;
+  border-radius: 4px;
+}
+h2::before, .topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: url("../img/tile.png") repeat center;
+  background-size: 216px 216px;
+  opacity: var(--wallpaper-opacity);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
 h3 { font-size: 1.08rem; margin: 1.3rem 0 0.3rem; }
 p { margin: 0 0 1rem; }
 ul { padding-left: 1.2rem; }
@@ -103,6 +145,7 @@ li { margin-bottom: 0.35rem; }
   border-radius: 10px;
   box-shadow: var(--shadow);
   padding: 36px 48px 44px;
+  isolation: isolate; /* keeps the wallpaper bands inside the card */
 }
 
 /* ---------- Top navigation ---------- */
@@ -112,9 +155,8 @@ li { margin-bottom: 0.35rem; }
   align-items: baseline;
   justify-content: space-between;
   gap: 8px 20px;
-  margin-bottom: 28px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
+  margin: 0 -0.8rem 28px;
+  padding: 12px 0.8rem;
 }
 .brand { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--text); }
 .brand:hover { color: var(--accent-hover); border-bottom-color: transparent; }
@@ -125,17 +167,66 @@ li { margin-bottom: 0.35rem; }
 
 /* ---------- Home hero ---------- */
 .hero { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 1.5rem; }
-.hero img {
+.hero .portrait {
   width: 190px;
   flex: 0 0 190px;
-  aspect-ratio: 857 / 1261;
-  object-fit: cover;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
   border-radius: 8px;
   border: 1px solid var(--border);
+}
+/* portrait2.jpg is landscape (1247x858). The frame above clips it to a
+   portrait, and the image is scaled up inside the frame so the person fills
+   more of it. --portrait-zoom sets how much; the transform-origin is the
+   point that stays put while zooming (x across the frame, y down it), so
+   nudge it to re-centre the person. */
+.hero .portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 50%;
+  transform: scale(var(--portrait-zoom, 1.4));
+  transform-origin: 50% 64%;
   /* Mild desaturation so the photo sits closer to the site's muted palette. */
   filter: saturate(0.78);
 }
 .hero-text { flex: 1 1 auto; min-width: 0; }
+
+/* Engraving on the right of the hero, the same height as the portrait so the
+   two sit in line. Multiply keeps only the ink (the white paper of the scan
+   drops out), the reduced opacity makes it read as pressed into the page
+   rather than printed on it, and the radial mask feathers the edges away. */
+.hero-art {
+  flex: 0 4 500px;
+  min-width: 0;
+  margin: 0;
+}
+.hero-art img {
+  display: block;
+  width: 100%;
+  height: calc(240px * 4 / 3);
+  object-fit: cover;
+  opacity: var(--art-opacity);
+  mix-blend-mode: var(--art-blend);
+  filter: var(--art-filter);
+  -webkit-mask-image: radial-gradient(ellipse closest-side at center, #000 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse closest-side at center, #000 50%, transparent 100%);
+  pointer-events: none;
+  user-select: none;
+}
+.hero-art figcaption {
+  /* The mask fades the bottom of the engraving to nothing, so the caption is
+     pulled up into that empty band. */
+  margin-top: -3rem;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.78rem;
+  line-height: 1.1;
+  color: var(--muted);
+}
+@media (max-width: 900px) { .hero-art { display: none; } }
 .hero-text .title { color: var(--muted); margin: 0.35rem 0 0.9rem; font-size: 1.02rem; }
 
 .links { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; margin: 0; list-style: none; }
@@ -167,9 +258,7 @@ li { margin-bottom: 0.35rem; }
 
 /* ---------- Footer ---------- */
 .footer {
-  margin-top: 2.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
+  margin-top: 3rem;
   color: var(--muted);
   font-size: 0.85rem;
 }
@@ -180,7 +269,7 @@ li { margin-bottom: 0.35rem; }
   .page { margin-top: 16px; }
   .card { padding: 22px 18px 28px; border-radius: 8px; }
   .hero { flex-direction: column; gap: 18px; }
-  .hero img { width: 160px; flex-basis: auto; }
+  .hero .portrait { width: 160px; flex-basis: auto; }
   h1 { font-size: 1.8rem; }
   .cv-frame { height: 70vh; }
 }

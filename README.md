@@ -21,13 +21,14 @@ Static site for Zach Lawrence: plain HTML and CSS, no build step.
   header in `index.html` is hand-written, so update both when adding a link.
 - **Nav**: the `<header class="topbar">` block is duplicated in every page;
   edit all four when adding a page.
-- **Background tile**: `img/bg-tile.jpg` is generated from `img/background.png`
-  (which is gitignored because it is 12 MB) by
+- **Background**: `img/bg.jpg` is the whole ornament plate, generated from
+  `img/background.png` (which is gitignored because it is 12 MB) by
 
-      python3 tools/make_bg_tile.py
+      python3 tools/make_bg.py
 
-  Adjust `CROP`, `SATURATION`, `CONTRAST`, or `LIGHTEN` in that script to taste.
-  Requires Pillow (`pip install pillow`).
+  The script turns the scan upright, deskews it, crops to the plate frame and
+  softens the colours. Adjust `ROTATE`, `CROP`, `SATURATION`, `CONTRAST`, or
+  `LIGHTEN` in that script to taste. Requires Pillow (`pip install pillow`).
 
 ## Preview locally
 
