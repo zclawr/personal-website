@@ -8,19 +8,18 @@ Static site for Zach Lawrence: plain HTML and CSS, no build step.
 |---|---|
 | `index.html` | Home: portrait, bio, links, Teaching section |
 | `publications.html` | Papers with summaries, plus talks and posters |
-| `cv.html` | Embeds `CV.pdf` |
-| `personal.html` | Reading, music, hobby projects |
+| `CV.pdf` | Linked from the home page header; opens in a new tab |
 | `css/style.css` | Shared styles (colours are CSS variables at the top) |
 
 ## Editing
 
-- **Bio / Teaching / Personal**: edit the HTML directly. Placeholder sections
+- **Bio / Teaching**: edit the HTML directly. Placeholder sections
   contain an HTML comment showing a suggested format.
 - **CV**: replace `CV.pdf`. Nothing else needs to change.
 - **Links**: `links.csv` is the record of header links (`label,url`). The
   header in `index.html` is hand-written, so update both when adding a link.
 - **Nav**: the `<header class="topbar">` block is duplicated in every page;
-  edit all four when adding a page.
+  edit both when adding a page.
 - **Background**: `img/bg.jpg` is the whole ornament plate, generated from
   `img/background.png` (which is gitignored because it is 12 MB) by
 
@@ -35,7 +34,7 @@ Static site for Zach Lawrence: plain HTML and CSS, no build step.
     python3 -m http.server 8000
 
 then open <http://localhost:8000>. Opening `index.html` directly also works,
-but some browsers block the inline PDF over `file://`.
+but some browsers block opening the PDF over `file://`.
 
 ## Deploy to GitHub Pages
 

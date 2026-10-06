@@ -1,88 +1,43 @@
-/* ---------- Design tokens ---------- */
 :root {
   --bg: #f4f1e8;
   --card: #fffdf8;
   --text: #2a2b28;
   --muted: #6d6f68;
-  --accent: #4e7a5b;        /* sage green, from the plate's leaves */
-  --accent-hover: #b4563b;  /* terracotta, from the plate's berries */
+  --accent: #4e7a5b;
+  --accent-hover: #b4563b;
   --border: #e2dccd;
-  --wallpaper-opacity: 0.12; /* lace tile behind section headers */
-  --art-opacity: 0.7;       /* hero engraving: pressed into the paper */
+  --wallpaper-opacity: 0.12;
+  --art-opacity: 0.7;
   --art-blend: multiply;
   --art-filter: none;
   --shadow: 0 2px 18px rgba(60, 50, 30, 0.08);
-  --bg-opacity: 1.0;
-  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --bg-opacity: 0.9;
+  --bg-veil: color-mix(in srgb, var(--bg) calc((1 - var(--bg-opacity)) * 100%), transparent);
+  --serif: Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #1b1d1a;
-    --card: #242723;
-    --text: #e6e4dc;
-    --muted: #a5a69d;
-    --accent: #8fc39b;
-    --accent-hover: #e2896d;
-    --border: #383c37;
-    --wallpaper-opacity: 0.55;
-    --art-opacity: 0.7;      /* on a dark card the engraving is lifted instead */
-    --art-blend: screen;
-    --art-filter: invert(1);
-    --shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
-    --bg-opacity: 1.0;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #1b1d1a;
-  --card: #242723;
-  --text: #e6e4dc;
-  --muted: #a5a69d;
-  --accent: #8fc39b;
-  --accent-hover: #e2896d;
-  --border: #383c37;
-  --wallpaper-opacity: 0.55;
-  --art-opacity: 0.7;
-  --art-blend: screen;
-  --art-filter: invert(1);
-  --shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
-  --bg-opacity: 1.0;
-}
-
-/* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+/* The pattern lives on the root element so it paints the entire canvas:
+   it keeps repeating above, below, and beyond the page, including overscroll.
+   The translucent colour layer on top reproduces --bg-opacity. */
+html {
+  -webkit-text-size-adjust: 100%;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--bg-veil), var(--bg-veil)),
+    url("../img/bg_grid.jpg");
+  background-repeat: repeat;
+  background-size: auto, 60% auto;
+}
 
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: 17px;
   line-height: 1.6;
   min-height: 100vh;
-  position: relative;
-}
-
-/* The whole ornament plate, scaled to the page width, behind everything.
-   It scrolls with the page so the full plate is seen top to bottom; the page
-   colour continues below it. Kept on a pseudo-element so dark mode can fade
-   it without touching the page colour. */
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: url("../img/bg.jpg") repeat top center;
-  background-repeat: repeat;
-  background-size: 50% auto;
-  opacity: var(--bg-opacity);
-  /* Soften the cut on pages shorter than the plate. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 240px), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 240px), transparent);
-  pointer-events: none;
 }
 
 a {
@@ -102,14 +57,6 @@ h2 {
 }
 h2:first-child { margin-top: 0; }
 
-/* ---------- Wallpaper band ----------
-   Section headers and the top bar sit on a strip of the lace tile. The tile
-   is black on white, so multiplying it at low opacity only darkens the card
-   colour where the pattern is; the strip itself stays the page colour. The
-   negative horizontal margins let the strip run a little past the text
-   column while the text stays aligned with the body copy. The strip is a
-   z-index:-1 pseudo-element, so .card must be a stacking context (see
-   isolation below) or it would be painted behind the card. */
 h2, .topbar {
   position: relative;
   border-radius: 4px;
@@ -123,7 +70,7 @@ h2::before, .topbar::before {
   background: url("../img/tile.png") repeat center;
   background-size: 216px 216px;
   opacity: var(--wallpaper-opacity);
-  mix-blend-mode: multiply;
+  mix-blend-mode:exclusion;
   pointer-events: none;
 }
 h3 { font-size: 1.08rem; margin: 1.3rem 0 0.3rem; }
@@ -133,7 +80,6 @@ li { margin-bottom: 0.35rem; }
 .muted { color: var(--muted); }
 .placeholder { color: var(--muted); font-style: italic; }
 
-/* ---------- Layout ---------- */
 .page {
   max-width: 960px;
   margin: 32px auto 48px;
@@ -142,13 +88,12 @@ li { margin-bottom: 0.35rem; }
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: var(--shadow);
-  padding: 36px 48px 44px;
-  isolation: isolate; /* keeps the wallpaper bands inside the card */
+  padding: 24px 24px 22px;
+  isolation: isolate;
 }
 
-/* ---------- Top navigation ---------- */
 .topbar {
   display: flex;
   flex-wrap: wrap;
@@ -165,7 +110,6 @@ li { margin-bottom: 0.35rem; }
 .nav a:hover { color: var(--accent-hover); }
 .nav a[aria-current="page"] { color: var(--text); border-bottom: 2px solid var(--accent); }
 
-/* ---------- Home hero ---------- */
 .hero { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 1.5rem; }
 .hero .portrait {
   width: 190px;
@@ -175,11 +119,7 @@ li { margin-bottom: 0.35rem; }
   border-radius: 8px;
   border: 1px solid var(--border);
 }
-/* portrait2.jpg is landscape (1247x858). The frame above clips it to a
-   portrait, and the image is scaled up inside the frame so the person fills
-   more of it. --portrait-zoom sets how much; the transform-origin is the
-   point that stays put while zooming (x across the frame, y down it), so
-   nudge it to re-centre the person. */
+
 .hero .portrait img {
   display: block;
   width: 100%;
@@ -187,16 +127,12 @@ li { margin-bottom: 0.35rem; }
   object-fit: cover;
   object-position: 52% 50%;
   transform: scale(var(--portrait-zoom, 1.4));
-  transform-origin: 50% 64%;
-  /* Mild desaturation so the photo sits closer to the site's muted palette. */
-  filter: saturate(0.78);
+  transform-origin: 60% 100%;
+  filter: saturate(5);
 }
+
 .hero-text { flex: 1 1 auto; min-width: 0; }
 
-/* Engraving on the right of the hero, the same height as the portrait so the
-   two sit in line. Multiply keeps only the ink (the white paper of the scan
-   drops out), the reduced opacity makes it read as pressed into the page
-   rather than printed on it, and the radial mask feathers the edges away. */
 .hero-art {
   flex: 0 4 500px;
   min-width: 0;
@@ -215,9 +151,8 @@ li { margin-bottom: 0.35rem; }
   pointer-events: none;
   user-select: none;
 }
+
 .hero-art figcaption {
-  /* The mask fades the bottom of the engraving to nothing, so the caption is
-     pulled up into that empty band. */
   margin-top: -3rem;
   text-align: center;
   font-family: var(--serif);
@@ -233,7 +168,6 @@ li { margin-bottom: 0.35rem; }
 .links a { display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem; }
 .links svg { width: 17px; height: 17px; fill: currentColor; flex: 0 0 auto; }
 
-/* ---------- Publications ---------- */
 .pub { margin-bottom: 1.6rem; }
 .pub .pub-title { font-family: var(--serif); font-size: 1.12rem; font-weight: 600; margin: 0 0 0.2rem; }
 .pub .authors { margin: 0 0 0.15rem; font-size: 0.97rem; }
@@ -244,26 +178,12 @@ li { margin-bottom: 0.35rem; }
 .pub .summary { margin: 0; }
 .talks li { margin-bottom: 0.6rem; }
 
-/* ---------- CV embed ---------- */
-.cv-actions { margin-bottom: 1rem; }
-.cv-frame {
-  width: 100%;
-  height: 85vh;
-  min-height: 480px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: #fff;
-}
-.cv-frame p { padding: 1rem; }
-
-/* ---------- Footer ---------- */
 .footer {
   margin-top: 3rem;
   color: var(--muted);
   font-size: 0.85rem;
 }
 
-/* ---------- Small screens ---------- */
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .page { margin-top: 16px; }
@@ -271,5 +191,4 @@ li { margin-bottom: 0.35rem; }
   .hero { flex-direction: column; gap: 18px; }
   .hero .portrait { width: 160px; flex-basis: auto; }
   h1 { font-size: 1.8rem; }
-  .cv-frame { height: 70vh; }
 }

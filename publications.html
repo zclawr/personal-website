@@ -19,8 +19,6 @@
       <ul class="nav">
         <li><a href="index.html">Home</a></li>
         <li><a href="publications.html" aria-current="page">Publications</a></li>
-        <li><a href="cv.html">CV</a></li>
-        <li><a href="personal.html">Personal</a></li>
       </ul>
     </header>
 
@@ -36,15 +34,25 @@
           <a href="https://github.com/Rose-STL-Lab/SimulCost-Bench">Code</a>
         </p>
         <p class="summary">
-          Benchmarks for LLM agents in science usually count tokens but ignore the cost of the
-          tools the agent calls, which for physics simulations can mean hours of compute per
-          attempt. SimulCost is a benchmark and toolkit that asks LLMs to choose cost-sensitive
-          simulation parameters (mesh resolution, time step, and so on) that hit an accuracy
-          target, and scores them on both success and the simulation compute they spend. It
-          covers thousands of single-round and multi-round tuning tasks across twelve simulators
-          from fluid dynamics, solid mechanics, and plasma physics. Frontier models make
-          unreliable initial guesses and, even with trial-and-error feedback, end up slower than a
-          conventional parameter scan, which points to cost-aware agent design as an open problem.
+          Evaluating LLM agents for scientific tasks has focused on token costs while ignoring
+          tool-use costs like simulation time and experimental resources. As a result, metrics
+          like pass@k become impractical under realistic budget constraints. To address this gap,
+          we introduce SimulCost, the first benchmark targeting cost-sensitive parameter tuning in
+          physics simulations. SimulCost compares LLM tuning cost-sensitive parameters against
+          traditional scanning approach in both accuracy and computational cost, spanning 2,643
+          single-round (initial guess) and 2,304 multi-round (adjustment by trial-and-error) tasks
+          across 11 simulators from fluid dynamics, solid mechanics, and plasma physics, whose
+          costs are analytically defined and platform-independent. A twelfth simulator, a
+          production plasma code measurable only by wall clock, is reported separately. Frontier
+          LLMs achieve 45&ndash;62% success rates in single-round mode, dropping to 34&ndash;50%
+          under high accuracy requirements, rendering their initial guesses unreliable especially
+          for high accuracy tasks. Multi-round mode improves rates to 66&ndash;81%, but LLMs are
+          1.5&ndash;2.7x slower than traditional scanning, making them uneconomical choices. We
+          also investigate parameter group correlations for knowledge transfer potential, and the
+          impact of in-context examples and reasoning effort, providing practical implications for
+          deployment and fine-tuning. We open-source SimulCost as a static benchmark and
+          extensible toolkit to facilitate research on improving cost-aware agentic designs for
+          physics simulations, and for expanding new simulation environments.
         </p>
       </article>
 
@@ -56,15 +64,19 @@
           <a href="https://arxiv.org/abs/2512.00728">arXiv</a>
         </p>
         <p class="summary">
-          Hybrid wind farms pair turbines with energy storage, so an operator can decide when to
-          bank power and when to sell it. This paper develops two deep learning frameworks for
-          individual farms. COVE-NN is an LSTM-based dispatch policy trained without labeled
-          dispatch decisions to directly maximize the value of the energy sold; in a 43-year case
-          study at the Pyron site it cut the annual cost of valued energy by 32.3% relative to
-          conventional baseload dispatch. The second is a probabilistic power generation model
-          driven by atmospheric conditions, which reduced RMSE by 9.5% and improved power curve
-          similarity by 18.9% on the Palouse wind farm, and can produce synthetic generation data
-          for training more robust dispatch strategies.
+          Wind farms with integrated energy storage, or hybrid wind farms, are able to store
+          energy and dispatch it to the grid following an operational strategy. For individual
+          wind farms with integrated energy storage capacity, data-driven dispatch strategies
+          using localized grid demand and market conditions as input parameters stand to maximize
+          wind energy value. Synthetic power generation data modeled on atmospheric conditions
+          provide another avenue for improving the robustness of data-driven dispatch strategies.
+          To these ends, the present work develops two deep learning frameworks: COVE-NN, an
+          LSTM-based dispatch strategy tailored to individual wind farms, which reduced annual
+          COVE by 32.3% over 43 years of simulated operations in a case study at the Pyron site;
+          and a power generation modeling framework that reduced RMSE by 9.5% and improved power
+          curve similarity by 18.9% when validated on the Palouse wind farm. Together, these
+          models pave the way for more robust, data-driven dispatch strategies and potential
+          extensions to other renewable energy systems.
         </p>
       </article>
     </section>
@@ -72,6 +84,10 @@
     <section id="talks">
       <h2>Talks &amp; Posters</h2>
       <ul class="talks">
+        <li>
+          Yadi Cao, Sicheng Lai, Jiahe Huang, Yang Zhang, <strong>Zach Lawrence</strong>, Rohan Bhakta, Izzy F. Thomas, Mingyun Cao, Chung-Hao Tsai, Zihao Zhou, Yidong Zhao, Hao Liu, Alessandro Marinoni, Alexey Arefiev, Rose Yu. “SimulCost: A Cost-Aware Benchmark and Toolkit for Automating Physics Simulations with LLMs.”
+          <span class="muted">Poster, International Conference on Machine Learning (ICML), 2026.</span>
+        </li>
         <li>
           <strong>Zach Lawrence</strong>, Jessica Yao. “Deep Learning for Modeling and Dispatching Hybrid Wind Farm Power Generation.”
           <span class="muted">Talk, ICDM Workshops, Washington, D.C., November 2025.</span>
@@ -92,7 +108,7 @@
     </section>
 
     <footer class="footer">
-      &copy; 2026 Zach Lawrence
+      - Zach Lawrence
     </footer>
   </main>
 </div>
