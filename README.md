@@ -20,6 +20,16 @@ Static site for Zach Lawrence: plain HTML and CSS, no build step.
   header in `index.html` is hand-written, so update both when adding a link.
 - **Nav**: the `<header class="topbar">` block is duplicated in every page;
   edit both when adding a page.
+- **SEO / metadata**: the `<head>` of each page carries its own title,
+  description, canonical URL, Open Graph tags and JSON-LD structured data, so
+  update them per page (the home page describes the `Person`, the publications
+  page lists each paper as a `ScholarlyArticle`). When a page changes, bump its
+  `<lastmod>` in `sitemap.xml`. `robots.txt` points crawlers at the sitemap.
+- **Favicon**: `favicon.ico`, `favicon.png` and `apple-touch-icon.png` are
+  generated from `img/icon.JPG` by
+
+      python3 tools/make_favicon.py
+
 - **Background**: `img/bg.jpg` is the whole ornament plate, generated from
   `img/background.png` (which is gitignored because it is 12 MB) by
 

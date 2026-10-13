@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zclawrence.com/sitemap.xml

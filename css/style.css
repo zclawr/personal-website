@@ -50,18 +50,19 @@ a:hover, a:focus-visible { color: var(--accent-hover); border-bottom-color: curr
 
 h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin: 0; }
 h1 { font-size: 2.1rem; }
-h2 {
+/* .section-heading lets a page's top-level <h1> share the h2 look. */
+h2, .section-heading {
   font-size: 1.35rem;
   margin: 2.2rem -0.8rem 0.9rem;
   padding: 0.4rem 0.8rem;
 }
-h2:first-child { margin-top: 0; }
+h2:first-child, .section-heading:first-child { margin-top: 0; }
 
-h2, .topbar {
+h2, .section-heading, .topbar {
   position: relative;
   border-radius: 4px;
 }
-h2::before, .topbar::before {
+h2::before, .section-heading::before, .topbar::before {
   content: "";
   position: absolute;
   inset: 0;
